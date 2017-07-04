@@ -19,7 +19,7 @@ void createAccount(int idCustomer) {
     @param int  idCustomer  id du client
  */
 void displayAccountBalance(int idCustomer) {
-    printf('test');
+    printf("test");
 }
 
 /*
