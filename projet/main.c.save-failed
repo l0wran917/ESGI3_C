@@ -9,7 +9,8 @@ int main() {
 
     Customer customer;
     constructCustomer(&customer);
-    updateCustomer(&customer);
+    customer.id = 1;
+    printf("%d", customer.id);
     displayCustomer(&customer);
     return 0;
 }
