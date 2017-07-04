@@ -1,2 +1,5 @@
 .idea/*
 cmake-build-debug/*
+projet/bin/*
+projet/obj/*
+projet/projet.cbp

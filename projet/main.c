@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "account.h"
+#include "customer.h"
+#include "csv.h"
 
 struct Account {
     int accountId;
@@ -10,10 +13,18 @@ struct Account {
 };
 
 typedef struct Account Account;
+int main() {
+    Customer customer;
+    Account account;
 
-int main()
-{
-    printf("Hello world!\n");
+    customer.customerId = 1;
+    customer.lastname = "Test";
+    customer.firstname = "Oui";
+    customer.profession = "Ok";
+    customer.phone = "0102030405";
+
+    saveCustomer(customer);
+
     return 0;
 }
 
