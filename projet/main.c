@@ -15,7 +15,8 @@ int main() {
     customer.profession = "Ok";
     customer.phone = "0102030405";
 
-    saveCustomer(customer);
+    //saveCustomer(customer);
+    getCustomer(2);
 
     return 0;
 }

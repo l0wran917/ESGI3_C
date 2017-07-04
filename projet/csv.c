@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "customer.h"
 #include "csv.h"
 
@@ -34,4 +35,21 @@ int saveCustomer(Customer customer) {
     free(data);
     fclose(file);
     return 1;
+}
+
+Customer* getCustomer(int id){
+    FILE *file = fopen(CUSTOMER_FILENAME, "a+");
+    if (file == NULL) {
+        return NULL;
+    }
+
+    char row[512];
+    char* rowId;
+    while (fgets(row, 255, file)) {
+        rowId = strtok(row, ";");
+        printf("%s\n", rowId);
+    }
+
+    fclose(file);
+    return NULL;
 }
