@@ -37,6 +37,11 @@ int saveCustomer(Customer customer) {
     return 1;
 }
 
+Customer* buildCustomerFromCsv(char* data){
+    printf("TODO");
+    return NULL;
+}
+
 Customer* getCustomer(int id){
     FILE *file = fopen(CUSTOMER_FILENAME, "a+");
     if (file == NULL) {
@@ -47,7 +52,11 @@ Customer* getCustomer(int id){
     char* rowId;
     while (fgets(row, 255, file)) {
         rowId = strtok(row, ";");
-        printf("%s\n", rowId);
+        rowId += 1; // Remove first "
+        rowId[strlen(rowId) - 1] = '\0'; // Remove last "
+        if(atoi(rowId) == id){
+            return buildCustomerFromCsv(row);
+        }
     }
 
     fclose(file);
