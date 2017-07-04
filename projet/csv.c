@@ -5,7 +5,7 @@
 
 const char *CUSTOMER_FILENAME = "../data/customers.csv";
 
-char *getCsvCustomerHeader() {
+char* getCsvCustomerHeader() {
     return "id;firstname;lastname\n";
 }
 
