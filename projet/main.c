@@ -7,16 +7,14 @@
 
 
 int main() {
-    /*
-    Customer customer = getCustomer(7);
+
+    Customer customer;
+    createCustomer(&customer);
     displayCustomer(&customer);
 
     Account account;
     createAccount(customer.id, &account);
     displayAccount(&account);
-    saveAccount(&account);
-    */
-    displayAccountsByCustomer(7);
 
     return 0;
 }

@@ -66,7 +66,6 @@ int saveAccount(Account *account) {
     if (account->id < 0) {
         account->id = getLastId(ACCOUNT_FILENAME);
     }
-    displayAccount(account);
 
     char *data = formatAccountToCsv(account);
     saveRow(account->id, data, ACCOUNT_FILENAME);

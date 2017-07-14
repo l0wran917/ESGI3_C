@@ -14,6 +14,8 @@ void createAccount(int idCustomer, Account *account) {
     scanf("%f", &(account->rate));
     printf("Veuillez renseigner la durée avant mise à disposition (en jour) :\n");
     scanf("%d", &(account->minimalTime));
+
+    saveAccount(account);
 }
 
 void displayAccount(Account *account) {
@@ -39,23 +41,9 @@ void displayAccountsByCustomer(int customerId) {
     }
 }
 
-/*
-    Fonction permmetant l'affichage du solde d'un compte
-
-    @param int  idCustomer  id du client
- */
-void displayAccountBalance(int idCustomer) {
-    printf("test");
-}
-
-/*
-    Fonction permmetant le créditement d'un compte
-
-    @param Account  account          compte à créditer
-    @param int      amountOfMoney    montant à créditer
- */
 void depositAccount(Account account, int amountOfMoney) {
     account.balance += amountOfMoney;
+    saveAccount(&account);
 }
 
 /*

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "customer.h"
+#include "csv.h"
 
 void createCustomer(Customer *customer) {
     customer->id = -1;
@@ -12,6 +13,8 @@ void createCustomer(Customer *customer) {
     scanf("%s", customer->profession);
     printf("Veuillez renseigner le telephone du client :\n");
     scanf("%s", customer->phone);
+
+    saveCustomer(customer);
 }
 
 void displayCustomer(Customer *customer) {
