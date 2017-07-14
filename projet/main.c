@@ -7,12 +7,13 @@
 
 int main() {
 
-    Customer *customer;
-    Account account;
+    Customer *customer = malloc(sizeof(customer));
 
-    //saveCustomer(customer);
-    customer = getCustomer(1);
+    updateCustomer(customer);
+
     displayCustomer(customer);
+
+    saveCustomer(customer);
 
     return 0;
 }

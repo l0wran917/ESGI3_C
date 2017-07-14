@@ -23,13 +23,13 @@ char *getCustomerDataFormatted(Customer customer) {
     return data;
 }
 
-int saveCustomer(Customer customer) {
+int saveCustomer(Customer* customer) {
     FILE *file = fopen(CUSTOMER_FILENAME, "a+");
     if (file == NULL) {
         return 0;
     }
 
-    char *data = getCustomerDataFormatted(customer);
+    char *data = getCustomerDataFormatted(*customer);
     fputs(data, file);
 
     free(data);
