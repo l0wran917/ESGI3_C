@@ -49,27 +49,20 @@ void depositAccount(Account account, int amountOfMoney) {
     saveAccount(&account);
 }
 
-/*
-    Fonction permmetant le débitement d'un compte
-
-    @param Account  account          compte à débiter
-    @param int      amountOfMoney    montant à débiter
- */
 void withdrawAccount(Account account, int amountOfMoney) {
-    account.balance -= amountOfMoney;
+    if (account.balance >= amountOfMoney) {
+        account.balance -= amountOfMoney;
+        saveAccount(&account);
+    }
 }
 
-/*
-    Fonction permmetant le transfert d'argent entre deux comptes
-
-    @param Account  debitedAccount   compte à débiter
-    @param Account  creditedAccount  compte à débiter
-    @param int      amountOfMoney    montant à transferer
- */
 void transferringAccount(Account debitedAccount, Account creditedAccount, int amountOfMoney) {
     if (debitedAccount.balance > amountOfMoney) {
         debitedAccount.balance -= amountOfMoney;
         creditedAccount.balance += amountOfMoney;
+
+        saveAccount(&debitedAccount);
+        saveAccount(&creditedAccount);
     } else {
         printf("Le compte débiteur ne possède pas suffisement d'argent (%d euros)", amountOfMoney);
     }

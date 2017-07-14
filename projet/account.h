@@ -16,7 +16,6 @@
 
     void displayAccountsByCustomer(int customerId);
 
-    void displayAccountBalance(int idCustomer);
     void depositAccount(Account account, int amountOfMoney);
     void withdrawAccount(Account account, int amountOfMoney);
     void transferringAccount(Account debitedAccount, Account creditedAccount, int amountOfMoney);

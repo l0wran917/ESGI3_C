@@ -12,5 +12,16 @@ int main() {
     customer = getCustomer(8);
     displayAccountsByCustomer(customer.id);
 
+    Account account;
+    account = getAccount(4);
+    depositAccount(account, 15);
+    withdrawAccount(account, 10);
+
+    Account account2;
+    account2 = getAccount(1);
+    transferringAccount(account, account2, 5);
+
+    displayAccountsByCustomer(customer.id);
+
     return 0;
 }
