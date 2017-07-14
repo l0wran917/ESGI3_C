@@ -1,8 +1,9 @@
 #ifndef FINAL_CSV_H
 #define FINAL_CSV_H
-
+// Get
 Customer *getCustomer(int id);
-// ---------
+Account *getAccount(int id);
+char *getRow(int id, const char *filename);
 
 // Save
 int saveCustomer(Customer *customer);
@@ -21,6 +22,10 @@ char *cleanCsvColumn(char *string);
 // Customer
 char *formatCustomerToCsv(Customer customer);
 Customer *buildCustomerFromCsv(char *data);
+
+// Account
+char *formatAccountToCsv(Account account);
+Account *buildAccountFromCsv(char *data);
 
 
 #endif //FINAL_CSV_H

@@ -10,12 +10,28 @@ const char *ACCOUNT_FILENAME = "../data/accounts.csv";
 const char *FILENAME_TMP = "../data/tmp.csv";
 
 Customer *getCustomer(int id) {
-    FILE *file = fopen(CUSTOMER_FILENAME, "a+");
+    char *data = getRow(id, CUSTOMER_FILENAME);
+    Customer *customer = buildCustomerFromCsv(data);
+    free(data);
+
+    return customer;
+}
+
+Account *getAccount(int id) {
+    char *data = getRow(id, ACCOUNT_FILENAME);
+    Account *account = buildAccountFromCsv(data);
+    free(data);
+
+    return account;
+}
+
+char *getRow(int id, const char *filename) {
+    FILE *file = fopen(filename, "a+");
     if (file == NULL) {
         return NULL;
     }
 
-    char row[512];
+    char *row = malloc(sizeof(char) * 512);
     char *rowId;
     while (fgets(row, 255, file)) {
         char rowCopy[512];
@@ -25,13 +41,14 @@ Customer *getCustomer(int id) {
         rowId = strtok(rowCopy, ";");
         rowId = cleanCsvColumn(rowId);
         if (atoi(rowId) == id) {
-            return buildCustomerFromCsv(row);
+            return row;
         }
     }
 
     fclose(file);
     return NULL;
 }
+
 
 int saveCustomer(Customer *customer) {
     int isNew = 0;
@@ -79,7 +96,7 @@ int saveRow(int id, char *data, const char *filename) {
         }
     }
 
-    if(saved == 0){
+    if (saved == 0) {
         fputs(data, fileTmp);
     }
 
@@ -189,4 +206,12 @@ int getLastId(const char *filename) {
     char *lastId = cleanCsvColumn(strtok(oldRow, ";"));
 
     return atoi(lastId) + 1;
+}
+
+char *formatAccountToCsv(Account account){
+    return NULL;
+}
+
+Account *buildAccountFromCsv(char *data){
+    return NULL;
 }

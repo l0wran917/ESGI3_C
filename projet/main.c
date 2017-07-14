@@ -8,7 +8,8 @@
 
 int main() {
 
-    deleteCustomer(3);
+    Customer customer = *getCustomer(7);
+    displayCustomer(&customer);
 
     return 0;
 }
