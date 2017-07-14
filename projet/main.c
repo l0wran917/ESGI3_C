@@ -9,11 +9,10 @@ int main() {
 
     Customer *customer = malloc(sizeof(customer));
 
-    updateCustomer(customer);
-
+    constructCustomer(customer);
     displayCustomer(customer);
-
     saveCustomer(customer);
 
+    free(customer);
     return 0;
 }

@@ -4,6 +4,7 @@
     struct Customer {
         int  id;
         char lastname[50];
+        char debug[1];
         char firstname[50];
         char profession[50];
         char phone[10];
@@ -13,4 +14,5 @@
     void displayCustomer(struct Customer *customer);
     void constructCustomer(struct Customer *customer);
     void updateCustomer(struct Customer *customer);
+
 #endif //FINAL_CUSTOMER_H
