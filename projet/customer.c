@@ -21,6 +21,7 @@ void displayCustomer(Customer *customer) {
     printf("Firstname : %s\n", customer->firstname);
     printf("Profession : %s\n", customer->profession);
     printf("Phone : %s\n", customer->phone);
+    printf("\n");
 }
 
 void updateCustomer(Customer *customer) {

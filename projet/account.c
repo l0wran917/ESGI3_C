@@ -21,25 +21,22 @@ void displayAccount(Account *account) {
     printf("Solde : %f\n", account->balance);
     printf("Taux : %f\n", account->rate);
     printf("Durée avant dispo : %d\n", account->minimalTime);
+    printf("\n");
 }
 
 void displayAccountsByCustomer(int customerId) {
-    char *ids = searchAccountsByCustomer(customerId);
     char *id;
+    char *ids = searchAccountsByCustomer(customerId);
 
-    printf("%s\n", ids);
-    id = strtok(ids, ",");
-    printf("%s\n", id);
-    while(id != NULL){
-        Account account;
+    id = strtok_r(ids, ",", &ids);
+
+    Account account;
+    while (id != NULL) {
         account = getAccount(atoi(id));
         displayAccount(&account);
 
-        id = strtok(NULL, ",");
+        id = strtok_r(NULL, ",", &ids);
     }
-
-    printf("TODO - Miss account id 2");
-    exit(5);
 }
 
 /*
