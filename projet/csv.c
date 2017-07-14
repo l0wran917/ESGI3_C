@@ -56,9 +56,7 @@ Customer *buildCustomerFromCsv(char *data) {
     element = cleanCsvColumn(strtok(NULL, ";"));
     strcpy(customer->phone, element);
 
-    displayCustomer(customer);
-
-    return NULL;
+    return customer;
 }
 
 Customer *getCustomer(int id) {

@@ -7,11 +7,12 @@
 
 int main() {
 
-    Customer customer;
+    Customer *customer;
     Account account;
 
     //saveCustomer(customer);
-    getCustomer(2);
+    customer = getCustomer(1);
+    displayCustomer(customer);
 
     return 0;
 }
