@@ -42,19 +42,19 @@ Customer *buildCustomerFromCsv(char *data) {
     Customer *customer = malloc(sizeof(Customer));
 
     element = cleanCsvColumn(strtok(data, ";"));
-    customer->id = (int) element;
+    customer->id = atoi(element);
 
     element = cleanCsvColumn(strtok(NULL, ";"));
-    customer->lastname = element;
+    strcpy(customer->lastname, element);
 
     element = cleanCsvColumn(strtok(NULL, ";"));
-    customer->firstname = element;
+    strcpy(customer->firstname, element);
 
     element = cleanCsvColumn(strtok(NULL, ";"));
-    customer->profession = element;
+    strcpy(customer->profession, element);
 
     element = cleanCsvColumn(strtok(NULL, ";"));
-    customer->phone = element;
+    strcpy(customer->phone, element);
 
     displayCustomer(customer);
 
@@ -71,7 +71,9 @@ Customer *getCustomer(int id) {
     char *rowId;
     while (fgets(row, 255, file)) {
         char rowCopy[512];
+        strcpy(row, strtok(row, "\n")); // Remove endline
         strcpy(rowCopy, row);
+
         rowId = strtok(rowCopy, ";");
         rowId = cleanCsvColumn(rowId);
         if (atoi(rowId) == id) {
