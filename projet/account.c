@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "account.h"
+#include "csv.h"
 
 void createAccount(int idCustomer, Account *account) {
     account->id = -1;
@@ -18,6 +19,13 @@ void displayAccount(Account *account) {
     printf("Solde : %f\n", account->balance);
     printf("Taux : %f\n", account->rate);
     printf("Durée avant dispo : %d\n", account->minimalTime);
+}
+
+void displayAccountsByCustomer(int customerId) {
+    printf("todo");
+    exit(5);
+    searchAccountsByCustomer(customerId, accountIds);
+    printf("%d\n", sizeof(accountIds) / sizeof(int));
 }
 
 /*

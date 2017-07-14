@@ -16,7 +16,7 @@ int main() {
     displayAccount(&account);
     saveAccount(&account);
     */
-    deleteAccount(1);
+    displayAccountsByCustomer(7);
 
     return 0;
 }

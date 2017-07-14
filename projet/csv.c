@@ -216,6 +216,35 @@ Customer *buildCustomerFromCsv(char *data) {
     return customer;
 }
 
+int* searchAccountsByCustomer(int customerId, int* accountIds) {
+
+    FILE *file = fopen(ACCOUNT_FILENAME, "r");
+    if (file == NULL) {
+        return NULL;
+    }
+
+    char row[512];
+    char *rowId;
+    while (fgets(row, 255, file)) {
+        char rowCopy[512];
+        strcpy(row, strtok(row, "\n")); // Remove endline
+        strcpy(rowCopy, row);
+
+        strtok(rowCopy, ";");
+        rowId = strtok(NULL, ";");
+        rowId = cleanCsvColumn(rowId);
+
+        if (atoi(rowId) == customerId) {
+            printf("-%s\n", row);
+        }
+    }
+
+    int accounts[] = {1, 2};
+    accountIds = accounts;
+
+    return accounts;
+}
+
 char *formatAccountToCsv(Account *account) {
     char *data = malloc(sizeof(char) * 2000);
 

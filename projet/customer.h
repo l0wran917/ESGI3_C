@@ -14,5 +14,4 @@
     void displayCustomer(struct Customer *customer);
 
     void updateCustomer(struct Customer *customer);
-
 #endif //FINAL_CUSTOMER_H

@@ -1,5 +1,9 @@
 #ifndef FINAL_CSV_H
 #define FINAL_CSV_H
+
+#include "customer.h"
+#include "account.h"
+
 // Get
 Customer getCustomer(int id);
 Account getAccount(int id);
@@ -22,6 +26,7 @@ char *cleanCsvColumn(char *string);
 // Customer
 char *formatCustomerToCsv(Customer *customer);
 Customer *buildCustomerFromCsv(char *data);
+int* searchAccountsByCustomer(int customerId, int* accountIds);
 
 // Account
 char *formatAccountToCsv(Account *account);
