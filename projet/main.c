@@ -10,7 +10,7 @@ int main() {
 
     Customer customer;
     //constructCustomer(&customer);
-    customer = *getCustomer(2);
+    customer = *getCustomer(5);
     strcpy(customer.firstname, "ok");
     displayCustomer(&customer);
     saveCustomer(&customer);

@@ -6,7 +6,7 @@
         char lastname[50];
         char firstname[50];
         char profession[50];
-        char phone[10];
+        char phone[11];
     };
     typedef struct Customer Customer;
 
