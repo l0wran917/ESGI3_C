@@ -6,6 +6,7 @@
 
 
 int main() {
+
     Customer customer;
     Account account;
 

@@ -2,11 +2,11 @@
 #define FINAL_CUSTOMER_H
 
     struct Customer {
-        int id;
-        char *lastname;
-        char *firstname;
-        char *profession;
-        char *phone;
+        int  id;
+        char lastname[50];
+        char firstname[50];
+        char profession[50];
+        char phone[10];
     };
     typedef struct Customer Customer;
 
