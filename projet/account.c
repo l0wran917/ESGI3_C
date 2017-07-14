@@ -23,15 +23,6 @@ void displayAccountBalance(int idCustomer) {
 }
 
 /*
-    Fonction permmetant la suppression d'un compte
-
-    @param int  idAccount  id du compte
- */
-void deleteAccount(int idAccount) {
-
-}
-
-/*
     Fonction permmetant le créditement d'un compte
 
     @param Account  account          compte à créditer
