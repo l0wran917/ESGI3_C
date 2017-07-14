@@ -29,16 +29,19 @@ void displayAccount(Account *account) {
 void displayAccountsByCustomer(int customerId) {
     char *id;
     char *ids = searchAccountsByCustomer(customerId);
+    char *ptr = ids;
 
-    id = strtok_r(ids, ",", &ids);
+    id = strtok_r(ids, ",", &ptr);
 
     Account account;
     while (id != NULL) {
         account = getAccount(atoi(id));
         displayAccount(&account);
 
-        id = strtok_r(NULL, ",", &ids);
+        id = strtok_r(NULL, ",", &ptr);
     }
+
+    free(ids);
 }
 
 void depositAccount(Account account, int amountOfMoney) {

@@ -19,6 +19,7 @@ Customer getCustomer(int id) {
 
 Account getAccount(int id) {
     char *data = getRow(id, ACCOUNT_FILENAME);
+
     Account *account = buildAccountFromCsv(data);
     free(data);
 
@@ -215,8 +216,10 @@ Customer *buildCustomerFromCsv(char *data) {
     return customer;
 }
 
-char *searchAccountsByCustomer(int customerId) {
+char *  searchAccountsByCustomer(int customerId) {
     char *accountsIds = malloc(sizeof(char) * 512);
+    // TODO : check malloc != NULL
+    *accountsIds = '\0';
 
     FILE *file = fopen(ACCOUNT_FILENAME, "r");
     if (file == NULL) {

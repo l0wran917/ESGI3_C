@@ -9,12 +9,8 @@
 int main() {
 
     Customer customer;
-    createCustomer(&customer);
-    displayCustomer(&customer);
-
-    Account account;
-    createAccount(customer.id, &account);
-    displayAccount(&account);
+    customer = getCustomer(8);
+    displayAccountsByCustomer(customer.id);
 
     return 0;
 }
