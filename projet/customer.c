@@ -2,16 +2,8 @@
 #include <stdlib.h>
 #include "customer.h"
 
-void displayCustomer(Customer *customer) {
-    printf("Voici les informations du client :\n");
-    printf("Id : %d\n", customer->id);
-    printf("Lastname : %s\n", customer->lastname);
-    printf("Firstname : %s\n", customer->firstname);
-    printf("Profession : %s\n", customer->profession);
-    printf("Phone : %s\n", customer->phone);
-}
-
-void constructCustomer(Customer *customer) {
+void createCustomer(Customer *customer) {
+    customer->id = -1;
     printf("Veuillez renseigner le nom de famille du client :\n");
     scanf("%s", customer->lastname);
     printf("Veuillez renseigner le prenom du client :\n");
@@ -20,6 +12,15 @@ void constructCustomer(Customer *customer) {
     scanf("%s", customer->profession);
     printf("Veuillez renseigner le telephone du client :\n");
     scanf("%s", customer->phone);
+}
+
+void displayCustomer(Customer *customer) {
+    printf("Voici les informations du client :\n");
+    printf("Id : %d\n", customer->id);
+    printf("Lastname : %s\n", customer->lastname);
+    printf("Firstname : %s\n", customer->firstname);
+    printf("Profession : %s\n", customer->profession);
+    printf("Phone : %s\n", customer->phone);
 }
 
 void updateCustomer(Customer *customer) {

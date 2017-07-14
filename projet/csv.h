@@ -1,8 +1,8 @@
 #ifndef FINAL_CSV_H
 #define FINAL_CSV_H
 // Get
-Customer *getCustomer(int id);
-Account *getAccount(int id);
+Customer getCustomer(int id);
+Account getAccount(int id);
 char *getRow(int id, const char *filename);
 
 // Save
@@ -20,11 +20,11 @@ int getLastId(const char *filename);
 char *cleanCsvColumn(char *string);
 
 // Customer
-char *formatCustomerToCsv(Customer customer);
+char *formatCustomerToCsv(Customer *customer);
 Customer *buildCustomerFromCsv(char *data);
 
 // Account
-char *formatAccountToCsv(Account account);
+char *formatAccountToCsv(Account *account);
 Account *buildAccountFromCsv(char *data);
 
 

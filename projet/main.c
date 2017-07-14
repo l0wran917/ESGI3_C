@@ -7,9 +7,13 @@
 
 
 int main() {
-
-    Customer customer = *getCustomer(7);
+    Customer customer = getCustomer(7);
     displayCustomer(&customer);
+
+    Account account;
+    createAccount(customer.id, &account);
+    displayAccount(&account);
+    saveAccount(&account);
 
     return 0;
 }

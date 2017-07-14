@@ -1,16 +1,23 @@
 #include <stdio.h>
 #include "account.h"
 
-/*
-        Fonction permmetant la création d'un compte
+void createAccount(int idCustomer, Account *account) {
+    account->id = -1;
+    account->customerId = idCustomer;
 
-        @param int  idClient  id du client
-     */
-void createAccount(int idCustomer) {
-    Account newAccount;
-    newAccount.accountId = 0; // TODO
-    newAccount.customerId = idCustomer;
-    newAccount.minimalTime = 0;
+    printf("Veuillez renseigner le montant de depart present sur le compte :\n");
+    scanf("%f", &(account->balance));
+    printf("Veuillez renseigner le taux de ce compte :\n");
+    scanf("%f", &(account->rate));
+    printf("Veuillez renseigner la durée avant mise à disposition (en jour) :\n");
+    scanf("%d", &(account->minimalTime));
+}
+
+void displayAccount(Account *account) {
+    printf("Voici les informations du compte N°%d : \n", account->id);
+    printf("Solde : %f\n", account->balance);
+    printf("Taux : %f\n", account->rate);
+    printf("Durée avant dispo : %d\n", account->minimalTime);
 }
 
 /*

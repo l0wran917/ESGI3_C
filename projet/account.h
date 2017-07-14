@@ -2,16 +2,18 @@
 #define FINAL_ACCOUNT_H
 
     struct Account {
-        int accountId;
+        int id;
         int customerId;
-        int balance;
-        int rate;
+        float balance;
+        float rate;
         int minimalTime;
     };
 
     typedef struct Account Account;
 
-    void createAccount(int idCustomer);
+    void createAccount(int idCustomer, Account* account);
+    void displayAccount(Account *account);
+
     void displayAccountBalance(int idCustomer);
     void depositAccount(Account account, int amountOfMoney);
     void withdrawAccount(Account account, int amountOfMoney);

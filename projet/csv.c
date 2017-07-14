@@ -9,20 +9,20 @@ const char *CUSTOMER_FILENAME = "../data/customers.csv";
 const char *ACCOUNT_FILENAME = "../data/accounts.csv";
 const char *FILENAME_TMP = "../data/tmp.csv";
 
-Customer *getCustomer(int id) {
+Customer getCustomer(int id) {
     char *data = getRow(id, CUSTOMER_FILENAME);
     Customer *customer = buildCustomerFromCsv(data);
     free(data);
 
-    return customer;
+    return *customer;
 }
 
-Account *getAccount(int id) {
+Account getAccount(int id) {
     char *data = getRow(id, ACCOUNT_FILENAME);
     Account *account = buildAccountFromCsv(data);
     free(data);
 
-    return account;
+    return *account;
 }
 
 char *getRow(int id, const char *filename) {
@@ -51,13 +51,11 @@ char *getRow(int id, const char *filename) {
 
 
 int saveCustomer(Customer *customer) {
-    int isNew = 0;
-    if (customer->id == NULL) {
-        isNew = 1;
+    if (customer->id < 0) {
         customer->id = getLastId(CUSTOMER_FILENAME);
     }
 
-    char *data = formatCustomerToCsv(*customer);
+    char *data = formatCustomerToCsv(customer);
     saveRow(customer->id, data, CUSTOMER_FILENAME);
 
     free(data);
@@ -65,11 +63,20 @@ int saveCustomer(Customer *customer) {
 }
 
 int saveAccount(Account *account) {
+    if (account->id < 0) {
+        account->id = getLastId(ACCOUNT_FILENAME);
+    }
+    displayAccount(account);
 
+    char *data = formatAccountToCsv(account);
+    saveRow(account->id, data, ACCOUNT_FILENAME);
+
+    free(data);
+    return 1;
 }
 
 int saveRow(int id, char *data, const char *filename) {
-    FILE *file = fopen(CUSTOMER_FILENAME, "a+");
+    FILE *file = fopen(filename, "a+");
     FILE *fileTmp = fopen(FILENAME_TMP, "w+");
 
     if (file == NULL || fileTmp == NULL) {
@@ -102,8 +109,8 @@ int saveRow(int id, char *data, const char *filename) {
 
     fclose(fileTmp);
     fclose(file);
-    remove(CUSTOMER_FILENAME);
-    rename(FILENAME_TMP, CUSTOMER_FILENAME);
+    remove(filename);
+    rename(FILENAME_TMP, filename);
 
     return 1;
 }
@@ -149,15 +156,40 @@ int deleteRow(int id, const char *filename) {
     return 1;
 }
 
-char *formatCustomerToCsv(Customer customer) {
+
+int getLastId(const char *filename) {
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        return NULL;
+    }
+
+    char row[512];
+    char oldRow[512];
+    while (fgets(row, 255, file)) {
+        strcpy(oldRow, row);
+    }
+
+    char *lastId = cleanCsvColumn(strtok(oldRow, ";"));
+
+    return atoi(lastId) + 1;
+}
+
+char *cleanCsvColumn(char *string) {
+    string += 1; // Remove first "
+    string[strlen(string) - 1] = '\0'; // Remove last "
+
+    return string;
+}
+
+char *formatCustomerToCsv(Customer *customer) {
     char *data = malloc(sizeof(char) * 2000);
 
     sprintf(data, "\"%d\";\"%s\";\"%s\";\"%s\";\"%s\"\n",
-            customer.id,
-            customer.lastname,
-            customer.firstname,
-            customer.profession,
-            customer.phone);
+            customer->id,
+            customer->lastname,
+            customer->firstname,
+            customer->profession,
+            customer->phone);
 
     return data;
 }
@@ -184,34 +216,19 @@ Customer *buildCustomerFromCsv(char *data) {
     return customer;
 }
 
-char *cleanCsvColumn(char *string) {
-    string += 1; // Remove first "
-    string[strlen(string) - 1] = '\0'; // Remove last "
+char *formatAccountToCsv(Account *account) {
+    char *data = malloc(sizeof(char) * 2000);
 
-    return string;
+    sprintf(data, "\"%d\";\"%d\";\"%f\";\"%f\";\"%d\"\n",
+            account->id,
+            account->customerId,
+            account->balance,
+            account->rate,
+            account->minimalTime);
+
+    return data;
 }
 
-int getLastId(const char *filename) {
-    FILE *file = fopen(filename, "r");
-    if (file == NULL) {
-        return NULL;
-    }
-
-    char row[512];
-    char oldRow[512];
-    while (fgets(row, 255, file)) {
-        strcpy(oldRow, row);
-    }
-
-    char *lastId = cleanCsvColumn(strtok(oldRow, ";"));
-
-    return atoi(lastId) + 1;
-}
-
-char *formatAccountToCsv(Account account){
-    return NULL;
-}
-
-Account *buildAccountFromCsv(char *data){
+Account *buildAccountFromCsv(char *data) {
     return NULL;
 }
