@@ -12,7 +12,6 @@ void displayCustomer(Customer *customer) {
 }
 
 void constructCustomer(Customer *customer) {
-    customer->id = 1;
     printf("Veuillez renseigner le nom de famille du client :\n");
     scanf("%s", customer->lastname);
     printf("Veuillez renseigner le prenom du client :\n");

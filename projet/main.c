@@ -7,12 +7,10 @@
 
 int main() {
 
-    Customer *customer = malloc(sizeof(customer));
+    Customer customer;
+    constructCustomer(&customer);
+    displayCustomer(&customer);
+    saveCustomer(&customer);
 
-    constructCustomer(customer);
-    displayCustomer(customer);
-    saveCustomer(customer);
-
-    free(customer);
     return 0;
 }

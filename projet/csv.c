@@ -23,10 +23,14 @@ char *getCustomerDataFormatted(Customer customer) {
     return data;
 }
 
-int saveCustomer(Customer* customer) {
+int saveCustomer(Customer *customer) {
     FILE *file = fopen(CUSTOMER_FILENAME, "a+");
     if (file == NULL) {
         return 0;
+    }
+
+    if (customer->id == NULL) {
+        customer->id = getLastCustomerId();
     }
 
     char *data = getCustomerDataFormatted(*customer);
@@ -88,4 +92,21 @@ char *cleanCsvColumn(char *string) {
     string[strlen(string) - 1] = '\0'; // Remove last "
 
     return string;
+}
+
+int getLastCustomerId() {
+    FILE *file = fopen(CUSTOMER_FILENAME, "r");
+    if (file == NULL) {
+        return NULL;
+    }
+
+    char row[512];
+    char oldRow[512];
+    while (fgets(row, 255, file)) {
+        strcpy(oldRow, row);
+    }
+    printf("Last : %s\n", oldRow);
+    char *lastId = cleanCsvColumn(strtok(oldRow, ";"));
+
+    return atoi(lastId) + 1;
 }

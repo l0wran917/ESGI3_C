@@ -4,7 +4,6 @@
     struct Customer {
         int  id;
         char lastname[50];
-        char debug[1];
         char firstname[50];
         char profession[50];
         char phone[10];

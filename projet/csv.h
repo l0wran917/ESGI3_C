@@ -11,4 +11,7 @@ Customer *getCustomer(int id);
 
 char *cleanCsvColumn(char *string);
 
+int getLastCustomerId();
+
+
 #endif //FINAL_CSV_H
