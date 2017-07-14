@@ -29,12 +29,17 @@ int saveCustomer(Customer *customer) {
         return 0;
     }
 
+    int isNew = 0;
     if (customer->id == NULL) {
+        isNew = 1;
         customer->id = getLastCustomerId();
     }
 
     char *data = getCustomerDataFormatted(*customer);
-    fputs(data, file);
+
+    if (isNew == 1) {
+        fputs(data, file);
+    }
 
     free(data);
     fclose(file);
