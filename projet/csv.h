@@ -26,7 +26,7 @@ char *cleanCsvColumn(char *string);
 // Customer
 char *formatCustomerToCsv(Customer *customer);
 Customer *buildCustomerFromCsv(char *data);
-int* searchAccountsByCustomer(int customerId, int* accountIds);
+char* searchAccountsByCustomer(int customerId);
 
 // Account
 char *formatAccountToCsv(Account *account);

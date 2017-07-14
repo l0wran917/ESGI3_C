@@ -216,7 +216,8 @@ Customer *buildCustomerFromCsv(char *data) {
     return customer;
 }
 
-int* searchAccountsByCustomer(int customerId, int* accountIds) {
+char *searchAccountsByCustomer(int customerId) {
+    char *accountsIds = malloc(sizeof(char) * 512);
 
     FILE *file = fopen(ACCOUNT_FILENAME, "r");
     if (file == NULL) {
@@ -225,24 +226,25 @@ int* searchAccountsByCustomer(int customerId, int* accountIds) {
 
     char row[512];
     char *rowId;
+    char *rowCustomerId;
     while (fgets(row, 255, file)) {
         char rowCopy[512];
         strcpy(row, strtok(row, "\n")); // Remove endline
         strcpy(rowCopy, row);
 
-        strtok(rowCopy, ";");
-        rowId = strtok(NULL, ";");
+        rowId = strtok(rowCopy, ";");
         rowId = cleanCsvColumn(rowId);
+        rowCustomerId = strtok(NULL, ";");
+        rowCustomerId = cleanCsvColumn(rowCustomerId);
 
-        if (atoi(rowId) == customerId) {
-            printf("-%s\n", row);
+        if (atoi(rowCustomerId) == customerId) {
+            strcat(accountsIds, rowId);
+            strcat(accountsIds, ",");
         }
     }
+    accountsIds[strlen(accountsIds) - 1] = '\0'; // Remove last ,
 
-    int accounts[] = {1, 2};
-    accountIds = accounts;
-
-    return accounts;
+    return accountsIds;
 }
 
 char *formatAccountToCsv(Account *account) {
@@ -259,5 +261,25 @@ char *formatAccountToCsv(Account *account) {
 }
 
 Account *buildAccountFromCsv(char *data) {
-    return NULL;
+    char *element = NULL;
+    Account *account = malloc(sizeof(Account));
+
+    element = cleanCsvColumn(strtok(data, ";"));
+    account->id = atoi(element);
+
+    element = cleanCsvColumn(strtok(NULL, ";"));
+    account->customerId = atoi(element);
+
+    element = cleanCsvColumn(strtok(NULL, ";"));
+    account->balance = (float)atof(element);
+
+    element = cleanCsvColumn(strtok(NULL, ";"));
+    account->rate = (float)atof(element);
+
+    element = cleanCsvColumn(strtok(NULL, ";"));
+    account->minimalTime = atoi(element);
+
+
+    return account;
 }
+

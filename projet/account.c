@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "account.h"
 #include "csv.h"
 
@@ -22,10 +24,22 @@ void displayAccount(Account *account) {
 }
 
 void displayAccountsByCustomer(int customerId) {
-    printf("todo");
+    char *ids = searchAccountsByCustomer(customerId);
+    char *id;
+
+    printf("%s\n", ids);
+    id = strtok(ids, ",");
+    printf("%s\n", id);
+    while(id != NULL){
+        Account account;
+        account = getAccount(atoi(id));
+        displayAccount(&account);
+
+        id = strtok(NULL, ",");
+    }
+
+    printf("TODO - Miss account id 2");
     exit(5);
-    searchAccountsByCustomer(customerId, accountIds);
-    printf("%d\n", sizeof(accountIds) / sizeof(int));
 }
 
 /*
