@@ -5,6 +5,7 @@
 #include "csv.h"
 
 const char *CUSTOMER_FILENAME = "../data/customers.csv";
+const char *CUSTOMER_FILENAME_TMP = "../data/customers.tmp.csv";
 
 char *getCsvCustomerHeader() {
     return "id;firstname;lastname\n";
@@ -24,14 +25,10 @@ char *getCustomerDataFormatted(Customer customer) {
 }
 
 int saveCustomer(Customer *customer) {
-    char filenameTmp[150] = "";
-    strcat(filenameTmp, CUSTOMER_FILENAME);
-    strcat(filenameTmp, ".tmp");
-
     FILE *file = fopen(CUSTOMER_FILENAME, "a+");
-    FILE *fileTmp = fopen(filenameTmp, "w+");
+    FILE *fileTmp = fopen(CUSTOMER_FILENAME_TMP, "w+");
 
-    if (file == NULL) {
+    if (file == NULL || fileTmp == NULL) {
         return 0;
     }
 
@@ -45,7 +42,6 @@ int saveCustomer(Customer *customer) {
 
     char row[512];
     char *rowId;
-
     if (isNew == 0) {
         while (fgets(row, 255, file)) {
             char rowCopy[512];
@@ -66,7 +62,7 @@ int saveCustomer(Customer *customer) {
         fclose(fileTmp);
         fclose(file);
         remove(CUSTOMER_FILENAME);
-        rename(filenameTmp, CUSTOMER_FILENAME);
+        rename(CUSTOMER_FILENAME_TMP, CUSTOMER_FILENAME);
     } else {
         fputs(data, file);
         fclose(file);
@@ -75,6 +71,40 @@ int saveCustomer(Customer *customer) {
     free(data);
     return 1;
 }
+
+int deleteCustomer(Customer *customer) {
+    FILE *file = fopen(CUSTOMER_FILENAME, "a+");
+    FILE *fileTmp = fopen(CUSTOMER_FILENAME_TMP, "w+");
+
+    if (file == NULL || fileTmp == NULL) {
+        return 0;
+    }
+
+    char row[512];
+    char *rowId;
+
+    while (fgets(row, 255, file)) {
+        char rowCopy[512];
+        strcpy(row, strtok(row, "\n")); // Remove endline
+        strcpy(rowCopy, row);
+
+        rowId = strtok(rowCopy, ";");
+        rowId = cleanCsvColumn(rowId);
+
+        if (atoi(rowId) != customer->id) {
+            fputs(row, fileTmp);
+            fputs("\n", fileTmp);
+        }
+    }
+
+    fclose(fileTmp);
+    fclose(file);
+    remove(CUSTOMER_FILENAME);
+    rename(CUSTOMER_FILENAME_TMP, CUSTOMER_FILENAME);
+
+    return 1;
+}
+
 
 Customer *buildCustomerFromCsv(char *data) {
     char *element = NULL;

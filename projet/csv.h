@@ -13,5 +13,7 @@ char *cleanCsvColumn(char *string);
 
 int getLastCustomerId();
 
+int deleteCustomer(Customer *customer);
+
 
 #endif //FINAL_CSV_H

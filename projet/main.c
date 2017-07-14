@@ -11,9 +11,8 @@ int main() {
     Customer customer;
     //constructCustomer(&customer);
     customer = *getCustomer(5);
-    strcpy(customer.firstname, "ok");
     displayCustomer(&customer);
-    saveCustomer(&customer);
+    deleteCustomer(&customer);
 
     return 0;
 }
