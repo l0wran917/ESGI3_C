@@ -51,6 +51,8 @@ void updateCustomer(Customer *customer) {
                 printf("Veuillez renseigner le telephone du client :\n");
                 scanf("%s", customer->phone);
                 break;
+            default:
+                break;
         }
         printf("Souhaitez-vous effectuer une nouvelle modification ? :\n 1 - Oui\n 2 - Non\n");
         choice = 0;

@@ -7,6 +7,7 @@
 
 
 int main() {
+    /*
     Customer customer = getCustomer(7);
     displayCustomer(&customer);
 
@@ -14,6 +15,8 @@ int main() {
     createAccount(customer.id, &account);
     displayAccount(&account);
     saveAccount(&account);
+    */
+    deleteAccount(1);
 
     return 0;
 }

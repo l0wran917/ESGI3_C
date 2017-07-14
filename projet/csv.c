@@ -151,7 +151,7 @@ int deleteRow(int id, const char *filename) {
     fclose(fileTmp);
     fclose(file);
     remove(filename);
-    rename(FILENAME_TMP, CUSTOMER_FILENAME);
+    rename(FILENAME_TMP, ACCOUNT_FILENAME);
 
     return 1;
 }
