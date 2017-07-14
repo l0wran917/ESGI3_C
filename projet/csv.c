@@ -6,15 +6,15 @@
 
 const char *CUSTOMER_FILENAME = "../data/customers.csv";
 
-char* getCsvCustomerHeader() {
+char *getCsvCustomerHeader() {
     return "id;firstname;lastname\n";
 }
 
-char* getCustomerDataFormatted(Customer customer) {
-    char* data = malloc(sizeof(char) * 2000);
+char *getCustomerDataFormatted(Customer customer) {
+    char *data = malloc(sizeof(char) * 2000);
 
     sprintf(data, "\"%d\";\"%s\";\"%s\";\"%s\";\"%s\"\n",
-            customer.customerId,
+            customer.id,
             customer.lastname,
             customer.firstname,
             customer.profession,
@@ -29,7 +29,7 @@ int saveCustomer(Customer customer) {
         return 0;
     }
 
-    char* data = getCustomerDataFormatted(customer);
+    char *data = getCustomerDataFormatted(customer);
     fputs(data, file);
 
     free(data);
@@ -37,28 +37,55 @@ int saveCustomer(Customer customer) {
     return 1;
 }
 
-Customer* buildCustomerFromCsv(char* data){
-    printf("TODO");
+Customer *buildCustomerFromCsv(char *data) {
+    char *element = NULL;
+    Customer *customer = malloc(sizeof(Customer));
+
+    element = cleanCsvColumn(strtok(data, ";"));
+    customer->id = (int) element;
+
+    element = cleanCsvColumn(strtok(NULL, ";"));
+    customer->lastname = element;
+
+    element = cleanCsvColumn(strtok(NULL, ";"));
+    customer->firstname = element;
+
+    element = cleanCsvColumn(strtok(NULL, ";"));
+    customer->profession = element;
+
+    element = cleanCsvColumn(strtok(NULL, ";"));
+    customer->phone = element;
+
+    displayCustomer(customer);
+
     return NULL;
 }
 
-Customer* getCustomer(int id){
+Customer *getCustomer(int id) {
     FILE *file = fopen(CUSTOMER_FILENAME, "a+");
     if (file == NULL) {
         return NULL;
     }
 
     char row[512];
-    char* rowId;
+    char *rowId;
     while (fgets(row, 255, file)) {
-        rowId = strtok(row, ";");
-        rowId += 1; // Remove first "
-        rowId[strlen(rowId) - 1] = '\0'; // Remove last "
-        if(atoi(rowId) == id){
+        char rowCopy[512];
+        strcpy(rowCopy, row);
+        rowId = strtok(rowCopy, ";");
+        rowId = cleanCsvColumn(rowId);
+        if (atoi(rowId) == id) {
             return buildCustomerFromCsv(row);
         }
     }
 
     fclose(file);
     return NULL;
+}
+
+char *cleanCsvColumn(char *string) {
+    string += 1; // Remove first "
+    string[strlen(string) - 1] = '\0'; // Remove last "
+
+    return string;
 }

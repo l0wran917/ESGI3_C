@@ -2,7 +2,7 @@
 #define FINAL_CUSTOMER_H
 
     struct Customer {
-        int customerId;
+        int id;
         char *lastname;
         char *firstname;
         char *profession;

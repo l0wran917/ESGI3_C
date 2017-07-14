@@ -9,7 +9,7 @@ int main() {
     Customer customer;
     Account account;
 
-    customer.customerId = 1;
+    customer.id = 1;
     customer.lastname = "Test";
     customer.firstname = "Oui";
     customer.profession = "Ok";
