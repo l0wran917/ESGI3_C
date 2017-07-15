@@ -14,7 +14,7 @@
     void createAccount(int idCustomer, Account* account);
     void displayAccount(Account *account);
 
-    void displayAccountsByCustomer(int customerId);
+    void displayAccountsByCustomer(struct Customer *customer);
 
     void depositAccount(Account account, int amountOfMoney);
     void withdrawAccount(Account account, int amountOfMoney);

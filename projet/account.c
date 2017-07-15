@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "customer.h"
 #include "account.h"
 #include "csv.h"
 
@@ -26,9 +27,9 @@ void displayAccount(Account *account) {
     printf("\n");
 }
 
-void displayAccountsByCustomer(int customerId) {
+void displayAccountsByCustomer(Customer *customer) {
     char *id;
-    char *ids = searchAccountsByCustomer(customerId);
+    char *ids = searchAccountsByCustomer(customer->id);
     char *ptr = ids;
 
     id = strtok_r(ids, ",", &ptr);

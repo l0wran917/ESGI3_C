@@ -10,7 +10,6 @@ int main() {
 
     Customer customer;
     customer = getCustomer(8);
-    displayAccountsByCustomer(customer.id);
 
     Account account;
     account = getAccount(4);
@@ -21,7 +20,7 @@ int main() {
     account2 = getAccount(1);
     transferringAccount(account, account2, 5);
 
-    displayAccountsByCustomer(customer.id);
+    displayAccountsByCustomer(&customer);
 
     return 0;
 }
