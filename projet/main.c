@@ -7,6 +7,9 @@
 
 
 int main() {
+    addHistory(1, 1, "Debit", 5);
+
+    return 0;
 
     Customer customer;
     customer = getCustomer(8);

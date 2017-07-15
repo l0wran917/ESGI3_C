@@ -32,5 +32,8 @@ char* searchAccountsByCustomer(int customerId);
 char *formatAccountToCsv(Account *account);
 Account *buildAccountFromCsv(char *data);
 
+// History
+void addHistory(int customerId, int accountId, char *label, float amount);
+char *getHistoryFilename();
 
 #endif //FINAL_CSV_H

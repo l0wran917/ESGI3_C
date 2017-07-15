@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "customer.h"
 #include "account.h"
 #include "csv.h"
@@ -8,6 +9,8 @@
 const char *CUSTOMER_FILENAME = "../data/customers.csv";
 const char *ACCOUNT_FILENAME = "../data/accounts.csv";
 const char *FILENAME_TMP = "../data/tmp.csv";
+
+const char *HISTORY_PATH = "../data/history/";
 
 Customer getCustomer(int id) {
     char *data = getRow(id, CUSTOMER_FILENAME);
@@ -216,7 +219,7 @@ Customer *buildCustomerFromCsv(char *data) {
     return customer;
 }
 
-char *  searchAccountsByCustomer(int customerId) {
+char *searchAccountsByCustomer(int customerId) {
     char *accountsIds = malloc(sizeof(char) * 512);
     // TODO : check malloc != NULL
     *accountsIds = '\0';
@@ -273,10 +276,10 @@ Account *buildAccountFromCsv(char *data) {
     account->customerId = atoi(element);
 
     element = cleanCsvColumn(strtok(NULL, ";"));
-    account->balance = (float)atof(element);
+    account->balance = (float) atof(element);
 
     element = cleanCsvColumn(strtok(NULL, ";"));
-    account->rate = (float)atof(element);
+    account->rate = (float) atof(element);
 
     element = cleanCsvColumn(strtok(NULL, ";"));
     account->minimalTime = atoi(element);
@@ -285,3 +288,38 @@ Account *buildAccountFromCsv(char *data) {
     return account;
 }
 
+void addHistory(int customerId, int accountId, char *label, float amount) {
+    char *filename = getHistoryFilename();
+
+    FILE *file = fopen(filename, "a+");
+    if (file != NULL) {
+        int id = getLastId(filename);
+
+        fprintf(file, "\"%d\";\"%d\";\"%d\";\"%s\";\"%f\"\n", id, customerId, accountId, label, amount);
+
+        fclose(file);
+    } else {
+        exit(4);
+    }
+
+    free(filename);
+}
+
+char *getHistoryFilename() {
+    char *filename = malloc(sizeof(char) * 255);
+    *filename = '\0';
+
+    time_t now;
+    time(&now);
+    struct tm *now_tm;
+    now_tm = localtime(&now);
+
+    char date[50];
+    strftime(date, 50, "%Y%m%d", now_tm);
+
+    strcat(filename, HISTORY_PATH);
+    strcat(filename, date);
+    strcat(filename, ".csv");
+
+    return filename;
+}
