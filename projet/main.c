@@ -33,6 +33,8 @@ void deleteAccountAction(Customer *customer);
 
 void deleteCustomerAction();
 
+void displayHistoryAction(Customer *customer);
+
 void cleanOutput() {
     int i = 0;
     for (; i < 25; i++) {
@@ -121,8 +123,9 @@ void viewAndEditCustomerAction() {
         printf("1 - Modifier les informations\n");
         printf("2 - Creation d'un compte\n");
         printf("3 - Consultation des comptes\n");
-        printf("4 - Operation bancaire\n");
-        printf("5 - Fermeture d'un compte\n");
+        printf("4 - Consultation de l'historique quotidient\n");
+        printf("5 - Operation bancaire\n");
+        printf("6 - Fermeture d'un compte\n");
 
         printf("0 - Quitter\n");
         printf("\nAction : ");
@@ -139,9 +142,12 @@ void viewAndEditCustomerAction() {
                 displayAccountsAction(&customer);
                 break;
             case 4:
-                bankingOperationAction(&customer);
+                displayHistoryAction(&customer);
                 break;
             case 5:
+                bankingOperationAction(&customer);
+                break;
+            case 6:
                 deleteAccountAction(&customer);
                 break;
         }
@@ -251,7 +257,7 @@ void transfertAction(Customer *customer) {
     Account dest = getAccount(destId);
 
     printf("Quel montant voulez vous transferer ?\n");
-    scanf("%f\n", &amount);
+    scanf("%f", &amount);
 
     transferringAccount(source, dest, amount);
 }
@@ -319,5 +325,10 @@ void deleteCustomerAction() {
     deleteCustomer(id);
 
     printf("Le client n°%d n'existe plus\n", id);
+    system("pause");
+}
+
+void displayHistoryAction(Customer *customer) {
+    displayHistoriesByCustomer(customer);
     system("pause");
 }
