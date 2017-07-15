@@ -63,6 +63,8 @@ void updateCustomer(Customer *customer) {
         choice = 0;
         scanf("%d", &choice);
     } while (choice == 1);
+
+    saveCustomer(customer);
 }
 
 void displayHistoriesByCustomer(struct Customer *customer) {

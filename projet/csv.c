@@ -14,6 +14,13 @@ const char *HISTORY_PATH = "../data/history/";
 
 Customer getCustomer(int id) {
     char *data = getRow(id, CUSTOMER_FILENAME);
+
+    if (data == NULL) {
+        Customer customer;
+        customer.id = -1;
+        return customer;
+    }
+
     Customer *customer = buildCustomerFromCsv(data);
     free(data);
 
@@ -220,7 +227,7 @@ Customer *buildCustomerFromCsv(char *data) {
 }
 
 char *searchAccountsByCustomer(int customerId) {
-    return searchRowsBySecondId(customerId, (char *) CUSTOMER_FILENAME);
+    return searchRowsBySecondId(customerId, (char *) ACCOUNT_FILENAME);
 }
 
 char *searchHistoriesByCustomer(int customerId) {
