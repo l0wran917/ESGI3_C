@@ -2,20 +2,22 @@
 #define FINAL_ACCOUNT_H
 
     struct Account {
-        int accountId;
+        int id;
         int customerId;
-        int balance;
-        int rate;
+        float balance;
+        float rate;
         int minimalTime;
     };
 
     typedef struct Account Account;
 
-    void createAccount(int idCustomer);
-    void displayAccountBalance(int idCustomer);
-    void deleteAccount(int idAccount);
-    void depositAccount(Account account, int amountOfMoney);
-    void withdrawAccount(Account account, int amountOfMoney);
-    void transferringAccount(Account debitedAccount, Account creditedAccount, int amountOfMoney);
+    void createAccount(int idCustomer, Account* account);
+    void displayAccount(Account *account);
+
+    void displayAccountsByCustomer(struct Customer *customer);
+
+    void depositAccount(Account *account, float amountOfMoney);
+    void withdrawAccount(Account *account, float amountOfMoney);
+    void transferringAccount(Account debitedAccount, Account creditedAccount, float amountOfMoney);
 
 #endif //FINAL_ACCOUNT_H

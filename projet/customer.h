@@ -2,15 +2,17 @@
 #define FINAL_CUSTOMER_H
 
     struct Customer {
-        int customerId;
-        char *lastname;
-        char *firstname;
-        char *profession;
-        char *phone;
+        int  id;
+        char lastname[50];
+        char firstname[50];
+        char profession[50];
+        char phone[11];
     };
     typedef struct Customer Customer;
 
+    void createCustomer(struct Customer *customer);
     void displayCustomer(struct Customer *customer);
-    void constructCustomer(struct Customer *customer);
+
     void updateCustomer(struct Customer *customer);
+    void displayHistoriesByCustomer(struct Customer *customer);
 #endif //FINAL_CUSTOMER_H
