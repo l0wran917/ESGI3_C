@@ -45,21 +45,21 @@ void displayAccountsByCustomer(Customer *customer) {
     free(ids);
 }
 
-void depositAccount(Account account, int amountOfMoney) {
-    account.balance += amountOfMoney;
-    saveAccount(&account);
-    addHistory(account.customerId, account.id, "Depot", amountOfMoney);
+void depositAccount(Account *account, float amountOfMoney) {
+    account->balance += amountOfMoney;
+    saveAccount(account);
+    addHistory(account->customerId, account->id, "Depot", amountOfMoney);
 }
 
-void withdrawAccount(Account account, int amountOfMoney) {
-    if (account.balance >= amountOfMoney) {
-        account.balance -= amountOfMoney;
-        saveAccount(&account);
-        addHistory(account.customerId, account.id, "Debit", -amountOfMoney);
+void withdrawAccount(Account *account, float amountOfMoney) {
+    if (account->balance >= amountOfMoney) {
+        account->balance -= amountOfMoney;
+        saveAccount(account);
+        addHistory(account->customerId, account->id, "Debit", -amountOfMoney);
     }
 }
 
-void transferringAccount(Account debitedAccount, Account creditedAccount, int amountOfMoney) {
+void transferringAccount(Account debitedAccount, Account creditedAccount, float amountOfMoney) {
     if (debitedAccount.balance > amountOfMoney) {
         debitedAccount.balance -= amountOfMoney;
         creditedAccount.balance += amountOfMoney;

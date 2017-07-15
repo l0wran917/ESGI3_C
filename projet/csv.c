@@ -30,6 +30,12 @@ Customer getCustomer(int id) {
 Account getAccount(int id) {
     char *data = getRow(id, ACCOUNT_FILENAME);
 
+    if (data == NULL) {
+        Account account;
+        account.id = -1;
+        return account;
+    }
+
     Account *account = buildAccountFromCsv(data);
     free(data);
 
@@ -146,10 +152,12 @@ int deleteRow(int id, const char *filename) {
 
     while (fgets(row, 255, file)) {
         char rowCopy[512];
-        strcpy(row, strtok(row, "\n")); // Remove endline
+        char *ptr = rowCopy;
+
+        strcpy(row, strtok_r(row, "\n", &ptr)); // Remove endline
         strcpy(rowCopy, row);
 
-        rowId = strtok(rowCopy, ";");
+        rowId = strtok_r(rowCopy, ";", &ptr);
         rowId = cleanCsvColumn(rowId);
 
         if (atoi(rowId) != id) {
@@ -161,7 +169,7 @@ int deleteRow(int id, const char *filename) {
     fclose(fileTmp);
     fclose(file);
     remove(filename);
-    rename(FILENAME_TMP, ACCOUNT_FILENAME);
+    rename(FILENAME_TMP, filename);
 
     return 1;
 }

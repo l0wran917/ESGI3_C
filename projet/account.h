@@ -16,8 +16,8 @@
 
     void displayAccountsByCustomer(struct Customer *customer);
 
-    void depositAccount(Account account, int amountOfMoney);
-    void withdrawAccount(Account account, int amountOfMoney);
-    void transferringAccount(Account debitedAccount, Account creditedAccount, int amountOfMoney);
+    void depositAccount(Account *account, float amountOfMoney);
+    void withdrawAccount(Account *account, float amountOfMoney);
+    void transferringAccount(Account debitedAccount, Account creditedAccount, float amountOfMoney);
 
 #endif //FINAL_ACCOUNT_H
