@@ -22,6 +22,7 @@ int deleteRow(int id, const char *filename);
 // Utils
 int getLastId(const char *filename);
 char *cleanCsvColumn(char *string);
+char *searchRowsBySecondId(int id, char *filename);
 
 // Customer
 char *formatCustomerToCsv(Customer *customer);
@@ -35,5 +36,7 @@ Account *buildAccountFromCsv(char *data);
 // History
 void addHistory(int customerId, int accountId, char *label, float amount);
 char *getHistoryFilename();
+char *searchHistoriesByCustomer(int customerId);
+void displayHistory(int historyId);
 
 #endif //FINAL_CSV_H

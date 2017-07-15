@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "customer.h"
 #include "csv.h"
 
@@ -62,4 +63,19 @@ void updateCustomer(Customer *customer) {
         choice = 0;
         scanf("%d", &choice);
     } while (choice == 1);
+}
+
+void displayHistoriesByCustomer(struct Customer *customer) {
+    char *id;
+    char *ids = searchHistoriesByCustomer(customer->id);
+    char *ptr = ids;
+
+    id = strtok_r(ids, ",", &ptr);
+    while (id != NULL) {
+        displayHistory(atoi(id));
+
+        id = strtok_r(NULL, ",", &ptr);
+    }
+
+    free(ids);
 }

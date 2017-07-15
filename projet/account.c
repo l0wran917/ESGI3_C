@@ -48,12 +48,14 @@ void displayAccountsByCustomer(Customer *customer) {
 void depositAccount(Account account, int amountOfMoney) {
     account.balance += amountOfMoney;
     saveAccount(&account);
+    addHistory(account.customerId, account.id, "Depot", amountOfMoney);
 }
 
 void withdrawAccount(Account account, int amountOfMoney) {
     if (account.balance >= amountOfMoney) {
         account.balance -= amountOfMoney;
         saveAccount(&account);
+        addHistory(account.customerId, account.id, "Debit", -amountOfMoney);
     }
 }
 
@@ -64,6 +66,9 @@ void transferringAccount(Account debitedAccount, Account creditedAccount, int am
 
         saveAccount(&debitedAccount);
         saveAccount(&creditedAccount);
+
+        addHistory(debitedAccount.customerId, debitedAccount.id, "Transfert", -amountOfMoney);
+        addHistory(creditedAccount.customerId, creditedAccount.id, "Transfert", amountOfMoney);
     } else {
         printf("Le compte débiteur ne possède pas suffisement d'argent (%d euros)", amountOfMoney);
     }

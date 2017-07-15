@@ -220,11 +220,19 @@ Customer *buildCustomerFromCsv(char *data) {
 }
 
 char *searchAccountsByCustomer(int customerId) {
+    return searchRowsBySecondId(customerId, (char *) CUSTOMER_FILENAME);
+}
+
+char *searchHistoriesByCustomer(int customerId) {
+    return searchRowsBySecondId(customerId, getHistoryFilename());
+}
+
+char *searchRowsBySecondId(int id, char *filename) {
     char *accountsIds = malloc(sizeof(char) * 512);
     // TODO : check malloc != NULL
     *accountsIds = '\0';
 
-    FILE *file = fopen(ACCOUNT_FILENAME, "r");
+    FILE *file = fopen(filename, "r");
     if (file == NULL) {
         return NULL;
     }
@@ -242,13 +250,14 @@ char *searchAccountsByCustomer(int customerId) {
         rowCustomerId = strtok(NULL, ";");
         rowCustomerId = cleanCsvColumn(rowCustomerId);
 
-        if (atoi(rowCustomerId) == customerId) {
+        if (atoi(rowCustomerId) == id) {
             strcat(accountsIds, rowId);
             strcat(accountsIds, ",");
         }
     }
     accountsIds[strlen(accountsIds) - 1] = '\0'; // Remove last ,
 
+    fclose(file);
     return accountsIds;
 }
 
@@ -322,4 +331,20 @@ char *getHistoryFilename() {
     strcat(filename, ".csv");
 
     return filename;
+}
+
+void displayHistory(int historyId) {
+    char *data = getRow(historyId, getHistoryFilename());
+    char *element, *ptr = data;
+    char *labels[] = {"History Id", "Customer Id", "Account Id", "Operation", "Montant"};
+    int current = 0;
+
+    element = strtok_r(data, ";", &ptr);
+    while (element != NULL) {
+
+        printf("%s : %s\t\t | ", labels[current], cleanCsvColumn(element));
+        current += 1;
+        element = strtok_r(NULL, ";", &ptr);
+    }
+    printf("\n");
 }
