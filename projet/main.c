@@ -35,6 +35,10 @@ void deleteCustomerAction();
 
 void displayHistoryAction(Customer *customer);
 
+void administrationAction();
+void exportAction();
+void importAction();
+
 void cleanOutput() {
     int i = 0;
     for (; i < 25; i++) {
@@ -51,6 +55,7 @@ int main() {
         printf("Menu Principal\n");
         printf("Quelle action voulez vous effectuer ?\n\n");
         printf("1 - Gestion des clients\n");
+        printf("2 - Administration\n");
 
         printf("0 - Quitter\n");
         printf("\nAction : ");
@@ -59,6 +64,9 @@ int main() {
         switch (choice) {
             case 1:
                 clientManagementAction();
+                break;
+            case 2:
+                administrationAction();
                 break;
         }
     } while (choice != 0);
@@ -331,4 +339,45 @@ void deleteCustomerAction() {
 void displayHistoryAction(Customer *customer) {
     displayHistoriesByCustomer(customer);
     system("pause");
+}
+
+void administrationAction(){
+    int choice = 0;
+
+    do {
+        cleanOutput();
+        printf("Administration\n");
+        printf("Quelle action voulez vous effectuer ?\n\n");
+        printf("1 - Afficher solde de tous les comptes (TODO)\n");
+        printf("2 - Afficher le montant d'interets total (TODO)\n");
+        printf("3 - Exporter les données\n");
+        printf("4 - Importer les données\n");
+
+        printf("0 - Quitter\n");
+        printf("\nAction : ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                exportAction();
+                break;
+            case 4:
+                importAction();
+                break;
+        }
+
+    } while (choice != 0);
+
+}
+
+void exportAction(){
+
+}
+
+void importAction(){
+
 }
