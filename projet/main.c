@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "account.h"
 #include "customer.h"
 #include "csv.h"
@@ -36,7 +37,9 @@ void deleteCustomerAction();
 void displayHistoryAction(Customer *customer);
 
 void administrationAction();
+
 void exportAction();
+
 void importAction();
 
 void cleanOutput() {
@@ -340,7 +343,7 @@ void displayHistoryAction(Customer *customer) {
     system("pause");
 }
 
-void administrationAction(){
+void administrationAction() {
     int choice = 0;
 
     do {
@@ -350,7 +353,7 @@ void administrationAction(){
         printf("1 - Afficher solde de tous les comptes (TODO)\n");
         printf("2 - Afficher le montant d'interets total (TODO)\n");
         printf("3 - Exporter les données\n");
-        printf("4 - Importer les données (TODO)\n");
+        printf("4 - Importer les données\n");
 
         printf("0 - Quitter\n");
         printf("\nAction : ");
@@ -373,7 +376,7 @@ void administrationAction(){
 
 }
 
-void exportAction(){
+void exportAction() {
     cleanOutput();
 
     char filename[512];
@@ -385,10 +388,31 @@ void exportAction(){
     strcat(outputPath, filename);
 
     backupData(outputPath);
-    printf("Backup fini");
+    printf("Backup fini\n");
     system("pause");
 }
 
-void importAction(){
+void importAction() {
+    cleanOutput();
 
+    char filename[512];
+    char filePath[] = "../data/backup/";
+    int fileExists = -1;
+
+    do {
+        printf("Nom du fichier de backup : ");
+        scanf("%s", filename);
+
+        strcat(filePath, filename);
+
+        fileExists = access(filePath, R_OK);
+        if (fileExists != 0) {
+            printf("Le fichier n'existe pas\n");
+            strcpy(filePath, "../data/backup/");
+        }
+    } while (fileExists != 0);
+
+    importData(filePath);
+    printf("Les donnees sont importees\n");
+    system("pause");
 }

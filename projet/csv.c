@@ -11,6 +11,7 @@ const char *ACCOUNT_FILENAME = "../data/accounts.csv";
 const char *FILENAME_TMP = "../data/tmp.csv";
 
 const char *HISTORY_PATH = "../data/history/";
+const char *BACKUP_PATH = "../data/backup/";
 
 Customer getCustomer(int id) {
     char *data = getRow(id, CUSTOMER_FILENAME);
@@ -193,8 +194,12 @@ int getLastId(const char *filename) {
 }
 
 char *cleanCsvColumn(char *string) {
+    if(string[strlen(string) -1] == 10){
+        string[strlen(string) - 2] = '\0'; // Remove last "
+    }else{
+        string[strlen(string) - 1] = '\0'; // Remove last "
+    }
     string += 1; // Remove first "
-    string[strlen(string) - 1] = '\0'; // Remove last "
 
     return string;
 }
@@ -363,20 +368,20 @@ void displayHistory(int historyId) {
     printf("\n");
 }
 
-void backupData(char* filename){
+void backupData(char *filename) {
     FILE *file = fopen(filename, "w+");
     printf("File : %s\n", filename);
-    if(file != NULL){
-        backupFile((char*)CUSTOMER_FILENAME, file);
-        backupFile((char*)ACCOUNT_FILENAME, file);
+    if (file != NULL) {
+        backupFile((char *) CUSTOMER_FILENAME, file);
+        backupFile((char *) ACCOUNT_FILENAME, file);
 
         fclose(file);
     }
 }
 
-void backupFile(char* filename, FILE* output){
-    FILE* file = fopen(filename, "r");
-    if(file != NULL){
+void backupFile(char *filename, FILE *output) {
+    FILE *file = fopen(filename, "r");
+    if (file != NULL) {
         fprintf(output, "##%s\n", filename);
 
         char row[512];
@@ -385,4 +390,32 @@ void backupFile(char* filename, FILE* output){
         }
         fclose(file);
     }
+}
+
+void importData(char *filename) {
+
+    int step = 0;
+
+    FILE *file = fopen(filename, "r");
+    if (file != NULL) {
+        char row[512];
+        while (fgets(row, 255, file)) {
+            if(row[0] == '#' && row[1] == '#'){
+                step += 1;
+                char* path = strtok(row, "##");
+                path[strlen(path) - 1] = '\0'; // Remove new line
+            }else{
+                if(step == 1){
+                    Customer *cust = buildCustomerFromCsv(row);
+                    saveCustomer(cust);
+                }else if(step == 2){
+                    Account *account = buildAccountFromCsv(row);
+                    saveAccount(account);
+                }
+            }
+        }
+
+        fclose(file);
+    }
+
 }
