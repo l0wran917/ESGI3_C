@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "account.h"
 #include "customer.h"
 #include "csv.h"
@@ -35,6 +36,14 @@ void deleteCustomerAction();
 
 void displayHistoryAction(Customer *customer);
 
+void administrationAction();
+
+void exportAction();
+
+void importAction();
+
+void displayTotalAccountAmountAction();
+
 void cleanOutput() {
     int i = 0;
     for (; i < 25; i++) {
@@ -43,7 +52,6 @@ void cleanOutput() {
 }
 
 int main() {
-
     int choice = 0;
 
     do {
@@ -51,6 +59,7 @@ int main() {
         printf("Menu Principal\n");
         printf("Quelle action voulez vous effectuer ?\n\n");
         printf("1 - Gestion des clients\n");
+        printf("2 - Administration\n");
 
         printf("0 - Quitter\n");
         printf("\nAction : ");
@@ -59,6 +68,9 @@ int main() {
         switch (choice) {
             case 1:
                 clientManagementAction();
+                break;
+            case 2:
+                administrationAction();
                 break;
         }
     } while (choice != 0);
@@ -330,5 +342,93 @@ void deleteCustomerAction() {
 
 void displayHistoryAction(Customer *customer) {
     displayHistoriesByCustomer(customer);
+    system("pause");
+}
+
+void administrationAction() {
+    int choice = 0;
+
+    do {
+        cleanOutput();
+        printf("Administration\n");
+        printf("Quelle action voulez vous effectuer ?\n\n");
+        printf("1 - Afficher solde de tous les comptes\n");
+        printf("2 - Afficher le montant d'interets total\n");
+        printf("3 - Exporter les données\n");
+        printf("4 - Importer les données\n");
+
+        printf("0 - Quitter\n");
+        printf("\nAction : ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                displayTotalAccountAmountAction();
+                    break;
+            case 2:
+                displayTotalRateAmountAction();
+                    break;
+            case 3:
+                exportAction();
+                break;
+            case 4:
+                importAction();
+                break;
+        }
+
+    } while (choice != 0);
+
+}
+
+void exportAction() {
+    cleanOutput();
+
+    char filename[512];
+    char outputPath[] = "../data/backup/";
+
+    printf("Nom du fichier de backup : ");
+    scanf("%s", filename);
+
+    strcat(outputPath, filename);
+
+    backupData(outputPath);
+    printf("Backup fini\n");
+    system("pause");
+}
+
+void importAction() {
+    cleanOutput();
+
+    char filename[512];
+    char filePath[] = "../data/backup/";
+    int fileExists = -1;
+
+    do {
+        printf("Nom du fichier de backup : ");
+        scanf("%s", filename);
+
+        strcat(filePath, filename);
+
+        fileExists = access(filePath, R_OK);
+        if (fileExists != 0) {
+            printf("Le fichier n'existe pas\n");
+            strcpy(filePath, "../data/backup/");
+        }
+    } while (fileExists != 0);
+
+    importData(filePath);
+    printf("Les donnees sont importees\n");
+    system("pause");
+}
+
+void displayTotalAccountAmountAction(){
+    float total = getTotalAmountAccounts();
+    printf("La banque cummule au total %f€\n", total);
+    system("pause");
+}
+
+void displayTotalRateAmountAction(){
+    float total = getTotalRateAmountAccounts();
+    printf("La banque devra au total %f€\n", total);
     system("pause");
 }

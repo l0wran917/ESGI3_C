@@ -11,6 +11,7 @@ const char *ACCOUNT_FILENAME = "../data/accounts.csv";
 const char *FILENAME_TMP = "../data/tmp.csv";
 
 const char *HISTORY_PATH = "../data/history/";
+const char *BACKUP_PATH = "../data/backup/";
 
 Customer getCustomer(int id) {
     char *data = getRow(id, CUSTOMER_FILENAME);
@@ -193,8 +194,12 @@ int getLastId(const char *filename) {
 }
 
 char *cleanCsvColumn(char *string) {
+    if (string[strlen(string) - 1] == 10) {
+        string[strlen(string) - 2] = '\0'; // Remove last "
+    } else {
+        string[strlen(string) - 1] = '\0'; // Remove last "
+    }
     string += 1; // Remove first "
-    string[strlen(string) - 1] = '\0'; // Remove last "
 
     return string;
 }
@@ -356,10 +361,113 @@ void displayHistory(int historyId) {
 
     element = strtok_r(data, ";", &ptr);
     while (element != NULL) {
-
         printf("%s : %s\t\t | ", labels[current], cleanCsvColumn(element));
         current += 1;
         element = strtok_r(NULL, ";", &ptr);
     }
     printf("\n");
+}
+
+void backupData(char *filename) {
+    FILE *file = fopen(filename, "w+");
+    printf("File : %s\n", filename);
+    if (file != NULL) {
+        backupFile((char *) CUSTOMER_FILENAME, file);
+        backupFile((char *) ACCOUNT_FILENAME, file);
+
+        fclose(file);
+    }
+}
+
+void backupFile(char *filename, FILE *output) {
+    FILE *file = fopen(filename, "r");
+    if (file != NULL) {
+        fprintf(output, "##%s\n", filename);
+
+        char row[512];
+        while (fgets(row, 255, file)) {
+            fprintf(output, "%s", row);
+        }
+        fclose(file);
+    }
+}
+
+void importData(char *filename) {
+
+    int step = 0;
+
+    FILE *file = fopen(filename, "r");
+    if (file != NULL) {
+        char row[512];
+        while (fgets(row, 255, file)) {
+            if (row[0] == '#' && row[1] == '#') {
+                step += 1;
+                char *path = strtok(row, "##");
+                path[strlen(path) - 1] = '\0'; // Remove new line
+            } else {
+                if (step == 1) {
+                    Customer *cust = buildCustomerFromCsv(row);
+                    saveCustomer(cust);
+                } else if (step == 2) {
+                    Account *account = buildAccountFromCsv(row);
+                    saveAccount(account);
+                }
+            }
+        }
+
+        fclose(file);
+    }
+
+}
+
+float getTotalAmountAccounts() {
+    FILE *file = fopen(ACCOUNT_FILENAME, "r");
+    if (file == NULL) {
+        return 0;
+    }
+
+    float total = 0;
+
+    char row[512];
+    char *rowCopy;
+    while (fgets(row, 255, file)) {
+        strtok(row, ";");
+        strtok(NULL, ";");
+        rowCopy = strtok(NULL, ";");
+        rowCopy = cleanCsvColumn(rowCopy);
+
+        total += (float) atof(rowCopy);
+    }
+
+    fclose(file);
+    return total;
+}
+
+float getTotalRateAmountAccounts() {
+    FILE *file = fopen(ACCOUNT_FILENAME, "r");
+    if (file == NULL) {
+        return 0;
+    }
+
+    float total = 0;
+    float balance;
+    float rate;
+
+    char row[512];
+    char *tmp;
+    while (fgets(row, 255, file)) {
+        strtok(row, ";");
+        strtok(NULL, ";");
+
+        tmp = strtok(NULL, ";");
+        balance = (float) atof(cleanCsvColumn(tmp));
+
+        tmp = strtok(NULL, ";");
+        rate = (float) atof(cleanCsvColumn(tmp));
+
+        total += balance * rate;
+    }
+
+    fclose(file);
+    return total;
 }
