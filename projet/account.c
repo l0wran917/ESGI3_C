@@ -30,19 +30,28 @@ void displayAccount(Account *account) {
 void displayAccountsByCustomer(Customer *customer) {
     char *id;
     char *ids = searchAccountsByCustomer(customer->id);
-    char *ptr = ids;
-
-    id = strtok_r(ids, ",", &ptr);
+    char *oldIds = ids;
+    char idTmp[11];
+    memset(idTmp, '\0', sizeof(idTmp));
 
     Account account;
-    while (id != NULL) {
-        account = getAccount(atoi(id));
-        displayAccount(&account);
+    int delimiterPos = 0;
+    while (strlen(ids) > 0) {
+        char *str = strchr(ids, ',');
+        if (str != NULL) {
+            delimiterPos = (int) strlen(str);
+        } else {
+            delimiterPos = 0;
+        }
 
-        id = strtok_r(NULL, ",", &ptr);
+        strncpy(idTmp, ids, strlen(ids) - delimiterPos);
+        ids += strlen(idTmp) + 1;
+
+        account = getAccount(atoi(idTmp));
+        displayAccount(&account);
     }
 
-    free(ids);
+    free(oldIds);
 }
 
 void depositAccount(Account *account, float amountOfMoney) {
