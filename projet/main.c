@@ -42,6 +42,8 @@ void exportAction();
 
 void importAction();
 
+void displayTotalAccountAmountAction();
+
 void cleanOutput() {
     int i = 0;
     for (; i < 25; i++) {
@@ -350,8 +352,8 @@ void administrationAction() {
         cleanOutput();
         printf("Administration\n");
         printf("Quelle action voulez vous effectuer ?\n\n");
-        printf("1 - Afficher solde de tous les comptes (TODO)\n");
-        printf("2 - Afficher le montant d'interets total (TODO)\n");
+        printf("1 - Afficher solde de tous les comptes\n");
+        printf("2 - Afficher le montant d'interets total\n");
         printf("3 - Exporter les données\n");
         printf("4 - Importer les données\n");
 
@@ -361,9 +363,11 @@ void administrationAction() {
 
         switch (choice) {
             case 1:
-                break;
+                displayTotalAccountAmountAction();
+                    break;
             case 2:
-                break;
+                displayTotalRateAmountAction();
+                    break;
             case 3:
                 exportAction();
                 break;
@@ -414,5 +418,17 @@ void importAction() {
 
     importData(filePath);
     printf("Les donnees sont importees\n");
+    system("pause");
+}
+
+void displayTotalAccountAmountAction(){
+    float total = getTotalAmountAccounts();
+    printf("La banque cummule au total %f€\n", total);
+    system("pause");
+}
+
+void displayTotalRateAmountAction(){
+    float total = getTotalRateAmountAccounts();
+    printf("La banque devra au total %f€\n", total);
     system("pause");
 }

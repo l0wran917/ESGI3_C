@@ -194,9 +194,9 @@ int getLastId(const char *filename) {
 }
 
 char *cleanCsvColumn(char *string) {
-    if(string[strlen(string) -1] == 10){
+    if (string[strlen(string) - 1] == 10) {
         string[strlen(string) - 2] = '\0'; // Remove last "
-    }else{
+    } else {
         string[strlen(string) - 1] = '\0'; // Remove last "
     }
     string += 1; // Remove first "
@@ -400,15 +400,15 @@ void importData(char *filename) {
     if (file != NULL) {
         char row[512];
         while (fgets(row, 255, file)) {
-            if(row[0] == '#' && row[1] == '#'){
+            if (row[0] == '#' && row[1] == '#') {
                 step += 1;
-                char* path = strtok(row, "##");
+                char *path = strtok(row, "##");
                 path[strlen(path) - 1] = '\0'; // Remove new line
-            }else{
-                if(step == 1){
+            } else {
+                if (step == 1) {
                     Customer *cust = buildCustomerFromCsv(row);
                     saveCustomer(cust);
-                }else if(step == 2){
+                } else if (step == 2) {
                     Account *account = buildAccountFromCsv(row);
                     saveAccount(account);
                 }
@@ -418,4 +418,56 @@ void importData(char *filename) {
         fclose(file);
     }
 
+}
+
+float getTotalAmountAccounts() {
+    FILE *file = fopen(ACCOUNT_FILENAME, "r");
+    if (file == NULL) {
+        return 0;
+    }
+
+    float total = 0;
+
+    char row[512];
+    char *rowCopy;
+    while (fgets(row, 255, file)) {
+        strtok(row, ";");
+        strtok(NULL, ";");
+        rowCopy = strtok(NULL, ";");
+        rowCopy = cleanCsvColumn(rowCopy);
+
+        total += (float) atof(rowCopy);
+    }
+
+    fclose(file);
+    return total;
+}
+
+float getTotalRateAmountAccounts() {
+    FILE *file = fopen(ACCOUNT_FILENAME, "r");
+    if (file == NULL) {
+        return 0;
+    }
+
+    float total = 0;
+    float balance;
+    float rate;
+
+    char row[512];
+    char *tmp;
+    while (fgets(row, 255, file)) {
+        strtok(row, ";");
+        strtok(NULL, ";");
+
+        tmp = strtok(NULL, ";");
+        balance = (float) atof(cleanCsvColumn(tmp));
+
+        tmp = strtok(NULL, ";");
+        rate = (float) atof(cleanCsvColumn(tmp));
+
+        total += balance * rate;
+    }
+
+    fclose(file);
+    return total;
 }

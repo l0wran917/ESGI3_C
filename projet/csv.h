@@ -44,5 +44,8 @@ void backupData(char* filename);
 void backupFile(char* filename, FILE* output);
 void importData(char* filename);
 
+// Summary
+float getTotalAmountAccounts();
+float getTotalRateAmountAccounts();
 
 #endif //FINAL_CSV_H
