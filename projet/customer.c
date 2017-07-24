@@ -70,24 +70,26 @@ void updateCustomer(Customer *customer) {
 void displayHistoriesByCustomer(struct Customer *customer) {
     char *id;
     char *ids = searchHistoriesByCustomer(customer->id);
-    char *oldIds = ids;
-    char idTmp[11];
-    memset(idTmp, '\0', sizeof(idTmp));
+    if(ids != NULL){
+        char *oldIds = ids;
+        char idTmp[11];
+        memset(idTmp, '\0', sizeof(idTmp));
 
-    int delimiterPos = 0;
-    while (strlen(ids) > 0) {
-        char *str = strchr(ids, ',');
-        if (str != NULL) {
-            delimiterPos = (int) strlen(str);
-        } else {
-            delimiterPos = 0;
+        int delimiterPos = 0;
+        while (strlen(ids) > 0) {
+            char *str = strchr(ids, ',');
+            if (str != NULL) {
+                delimiterPos = (int) strlen(str);
+            } else {
+                delimiterPos = 0;
+            }
+
+            strncpy(idTmp, ids, strlen(ids) - delimiterPos);
+            ids += strlen(idTmp) + 1;
+
+            displayHistory(atoi(idTmp));
         }
 
-        strncpy(idTmp, ids, strlen(ids) - delimiterPos);
-        ids += strlen(idTmp) + 1;
-
-        displayHistory(atoi(idTmp));
+        free(oldIds);
     }
-
-    free(oldIds);
 }
