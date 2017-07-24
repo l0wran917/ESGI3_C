@@ -39,4 +39,7 @@ char *getHistoryFilename();
 char *searchHistoriesByCustomer(int customerId);
 void displayHistory(int historyId);
 
+void backupData(char* filename);
+void backupFile(char* filename, FILE* output);
+
 #endif //FINAL_CSV_H

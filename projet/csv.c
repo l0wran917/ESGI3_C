@@ -356,10 +356,33 @@ void displayHistory(int historyId) {
 
     element = strtok_r(data, ";", &ptr);
     while (element != NULL) {
-
         printf("%s : %s\t\t | ", labels[current], cleanCsvColumn(element));
         current += 1;
         element = strtok_r(NULL, ";", &ptr);
     }
     printf("\n");
+}
+
+void backupData(char* filename){
+    FILE *file = fopen(filename, "w+");
+    printf("File : %s\n", filename);
+    if(file != NULL){
+        backupFile((char*)CUSTOMER_FILENAME, file);
+        backupFile((char*)ACCOUNT_FILENAME, file);
+
+        fclose(file);
+    }
+}
+
+void backupFile(char* filename, FILE* output){
+    FILE* file = fopen(filename, "r");
+    if(file != NULL){
+        fprintf(output, "##%s\n", filename);
+
+        char row[512];
+        while (fgets(row, 255, file)) {
+            fprintf(output, "%s", row);
+        }
+        fclose(file);
+    }
 }

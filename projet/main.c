@@ -47,7 +47,6 @@ void cleanOutput() {
 }
 
 int main() {
-
     int choice = 0;
 
     do {
@@ -351,7 +350,7 @@ void administrationAction(){
         printf("1 - Afficher solde de tous les comptes (TODO)\n");
         printf("2 - Afficher le montant d'interets total (TODO)\n");
         printf("3 - Exporter les données\n");
-        printf("4 - Importer les données\n");
+        printf("4 - Importer les données (TODO)\n");
 
         printf("0 - Quitter\n");
         printf("\nAction : ");
@@ -375,7 +374,19 @@ void administrationAction(){
 }
 
 void exportAction(){
+    cleanOutput();
 
+    char filename[512];
+    char outputPath[] = "../data/backup/";
+
+    printf("Nom du fichier de backup : ");
+    scanf("%s", filename);
+
+    strcat(outputPath, filename);
+
+    backupData(outputPath);
+    printf("Backup fini");
+    system("pause");
 }
 
 void importAction(){
