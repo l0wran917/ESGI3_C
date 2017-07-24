@@ -44,6 +44,8 @@ void importAction();
 
 void displayTotalAccountAmountAction();
 
+void searchCustomerAction();
+
 void cleanOutput() {
     int i = 0;
     for (; i < 25; i++) {
@@ -87,7 +89,7 @@ void clientManagementAction() {
         printf("Quelle action voulez vous effectuer ?\n\n");
         printf("1 - Creation d'un client\n");
         printf("2 - Visualisation et edition d'un client\n");
-        printf("3 - Recherche d'un client (TODO)\n");
+        printf("3 - Recherche d'un client\n");
         printf("4 - Suppression d'un client\n");
 
         printf("0 - Quitter\n");
@@ -102,7 +104,7 @@ void clientManagementAction() {
                 viewAndEditCustomerAction();
                 break;
             case 3:
-
+                searchCustomerAction();
                 break;
             case 4:
                 deleteCustomerAction();
@@ -364,10 +366,10 @@ void administrationAction() {
         switch (choice) {
             case 1:
                 displayTotalAccountAmountAction();
-                    break;
+                break;
             case 2:
                 displayTotalRateAmountAction();
-                    break;
+                break;
             case 3:
                 exportAction();
                 break;
@@ -421,14 +423,25 @@ void importAction() {
     system("pause");
 }
 
-void displayTotalAccountAmountAction(){
+void displayTotalAccountAmountAction() {
     float total = getTotalAmountAccounts();
     printf("La banque cummule au total %f€\n", total);
     system("pause");
 }
 
-void displayTotalRateAmountAction(){
+void displayTotalRateAmountAction() {
     float total = getTotalRateAmountAccounts();
     printf("La banque devra au total %f€\n", total);
+    system("pause");
+}
+
+void searchCustomerAction() {
+    cleanOutput();
+    char input[512];
+
+    printf("Entrez le nom : ");
+    scanf("%s", input);
+
+    searchCustomer(input);
     system("pause");
 }

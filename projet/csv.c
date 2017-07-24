@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 #include "customer.h"
 #include "account.h"
 #include "csv.h"
@@ -470,4 +471,41 @@ float getTotalRateAmountAccounts() {
 
     fclose(file);
     return total;
+}
+
+void searchCustomer(char *name) {
+    FILE *file = fopen(CUSTOMER_FILENAME, "r");
+    if (file != NULL) {
+        char row[512];
+        char *tmp;
+
+        while (fgets(row, 255, file)) {
+            char rowCopy[512];
+            strcpy(rowCopy, row);
+
+            strtok(row, ";");
+            tmp = strtok(NULL, ";");
+            tmp = cleanCsvColumn(tmp);
+
+            int limit = (int) strlen(tmp);
+            if (strlen(name) < limit) {
+                limit = (int) strlen(name);
+            }
+
+            int i;
+            for (i = 0; i < limit; i++) {
+                if (tolower(tmp[i]) != name[i]) {
+                    break;
+                }
+            }
+
+            if (i == limit) {
+                Customer *customer = buildCustomerFromCsv(rowCopy);
+                displayCustomer(customer);
+            }
+
+        }
+
+        fclose(file);
+    }
 }

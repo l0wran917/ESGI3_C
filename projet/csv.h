@@ -28,6 +28,7 @@ char *searchRowsBySecondId(int id, char *filename);
 char *formatCustomerToCsv(Customer *customer);
 Customer *buildCustomerFromCsv(char *data);
 char* searchAccountsByCustomer(int customerId);
+void searchCustomer(char *name);
 
 // Account
 char *formatAccountToCsv(Account *account);
