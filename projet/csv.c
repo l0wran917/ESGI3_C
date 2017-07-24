@@ -154,12 +154,13 @@ int deleteRow(int id, const char *filename) {
 
     while (fgets(row, 255, file)) {
         char rowCopy[512];
-        char *ptr = rowCopy;
+        if (row[strlen(row) - 1] == 10) {
+            row[strlen(row) - 1] = '\0';
+        }
 
-        strcpy(row, strtok_r(row, "\n", &ptr)); // Remove endline
         strcpy(rowCopy, row);
 
-        rowId = strtok_r(rowCopy, ";", &ptr);
+        rowId = strtok(rowCopy, ";");
         rowId = cleanCsvColumn(rowId);
 
         if (atoi(rowId) != id) {
@@ -189,6 +190,9 @@ int getLastId(const char *filename) {
         strcpy(oldRow, row);
     }
 
+    if (strlen(oldRow) == 0) {
+        return 0;
+    }
     char *lastId = cleanCsvColumn(strtok(oldRow, ";"));
 
     return atoi(lastId) + 1;
@@ -356,15 +360,15 @@ char *getHistoryFilename() {
 
 void displayHistory(int historyId) {
     char *data = getRow(historyId, getHistoryFilename());
-    char *element, *ptr = data;
+    char *element;
     char *labels[] = {"History Id", "Customer Id", "Account Id", "Operation", "Montant"};
     int current = 0;
 
-    element = strtok_r(data, ";", &ptr);
+    element = strtok(data, ";");
     while (element != NULL) {
         printf("%s : %s\t\t | ", labels[current], cleanCsvColumn(element));
         current += 1;
-        element = strtok_r(NULL, ";", &ptr);
+        element = strtok(NULL, ";");
     }
     printf("\n");
 }
