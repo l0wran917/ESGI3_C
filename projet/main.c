@@ -65,14 +65,17 @@ int main() {
         created = mkdir("data", 0644);
         if (created == -1) {
             printf("%s\n", strerror(errno));
+            exit(EXIT_FAILURE);
         }
         created = mkdir("data/backup", 0644);
         if (created == -1) {
             printf("%s\n", strerror(errno));
+            exit(EXIT_FAILURE);
         }
         created = mkdir("data/history", 0644);
         if (created == -1) {
             printf("%s\n", strerror(errno));
+            exit(EXIT_FAILURE);
         }
     }
 
