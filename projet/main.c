@@ -50,6 +50,8 @@ void displayTotalRateAmountAction();
 
 void searchCustomerAction();
 
+void createFolders();
+
 void cleanOutput() {
     int i = 0;
     for (; i < 25; i++) {
@@ -58,26 +60,7 @@ void cleanOutput() {
 }
 
 int main() {
-    struct stat st = {0};
-    if (stat("data", &st) == -1) {
-        int created = 0;
-
-        created = mkdir("data", 0644);
-        if (created == -1) {
-            printf("%s\n", strerror(errno));
-            exit(EXIT_FAILURE);
-        }
-        created = mkdir("data/backup", 0644);
-        if (created == -1) {
-            printf("%s\n", strerror(errno));
-            exit(EXIT_FAILURE);
-        }
-        created = mkdir("data/history", 0644);
-        if (created == -1) {
-            printf("%s\n", strerror(errno));
-            exit(EXIT_FAILURE);
-        }
-    }
+    createFolders();
 
     int choice = 0;
 
@@ -469,4 +452,40 @@ void searchCustomerAction() {
 
     searchCustomer(input);
     system("pause");
+}
+
+void createFolders() {
+    struct stat st = {0};
+    if (stat("data", &st) == -1) {
+        int created = 0;
+
+#if defined(_WIN32)
+        created = _mkdir("data");
+#else
+        created = mkdir("data", 0644);
+#endif
+        if (created == -1) {
+            printf("%s\n", strerror(errno));
+            exit(EXIT_FAILURE);
+        }
+#if defined(_WIN32)
+        created = _mkdir("data/backup");
+#else
+        created = mkdir("data/backup", 0644);
+#endif
+        if (created == -1) {
+            printf("%s\n", strerror(errno));
+            exit(EXIT_FAILURE);
+        }
+#if defined(_WIN32)
+        created = _mkdir("data/history");
+#else
+        created = mkdir("data/history", 0644);
+#endif
+        if (created == -1) {
+            printf("%s\n", strerror(errno));
+            exit(EXIT_FAILURE);
+
+        }
+    }
 }
