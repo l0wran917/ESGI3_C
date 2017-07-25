@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <errno.h>
 #include "account.h"
 #include "customer.h"
 #include "csv.h"
@@ -58,12 +59,21 @@ void cleanOutput() {
 
 int main() {
     struct stat st = {0};
-    if(stat("data/history", &st) == -1){
-        mkdir("data/history", 0644);
-    }
+    if (stat("data", &st) == -1) {
+        int created = 0;
 
-    if(stat("data/backup", &st) == -1){
-        mkdir("data/backup", 0644);
+        created = mkdir("data", 0644);
+        if (created == -1) {
+            printf("%s\n", strerror(errno));
+        }
+        created = mkdir("data/backup", 0644);
+        if (created == -1) {
+            printf("%s\n", strerror(errno));
+        }
+        created = mkdir("data/history", 0644);
+        if (created == -1) {
+            printf("%s\n", strerror(errno));
+        }
     }
 
     int choice = 0;
