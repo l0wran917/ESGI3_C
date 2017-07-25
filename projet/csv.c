@@ -7,12 +7,12 @@
 #include "account.h"
 #include "csv.h"
 
-const char *CUSTOMER_FILENAME = "../data/customers.csv";
-const char *ACCOUNT_FILENAME = "../data/accounts.csv";
-const char *FILENAME_TMP = "../data/tmp.csv";
+const char *CUSTOMER_FILENAME = "data/customers.csv";
+const char *ACCOUNT_FILENAME = "data/accounts.csv";
+const char *FILENAME_TMP = "data/tmp.csv";
 
-const char *HISTORY_PATH = "../data/history/";
-const char *BACKUP_PATH = "../data/backup/";
+const char *HISTORY_PATH = "data/history/";
+const char *BACKUP_PATH = "data/backup/";
 
 Customer getCustomer(int id) {
     char *data = getRow(id, CUSTOMER_FILENAME);
@@ -51,6 +51,10 @@ char *getRow(int id, const char *filename) {
     }
 
     char *row = malloc(sizeof(char) * 512);
+    if(row == NULL){
+        exit(EXIT_FAILURE);
+    }
+
     char *rowId;
     while (fgets(row, 255, file)) {
         char rowCopy[512];
@@ -212,6 +216,10 @@ char *cleanCsvColumn(char *string) {
 
 char *formatCustomerToCsv(Customer *customer) {
     char *data = malloc(sizeof(char) * 2000);
+    if(data == NULL){
+        exit(EXIT_FAILURE);
+    }
+
 
     sprintf(data, "\"%d\";\"%s\";\"%s\";\"%s\";\"%s\"\n",
             customer->id,
@@ -226,6 +234,9 @@ char *formatCustomerToCsv(Customer *customer) {
 Customer *buildCustomerFromCsv(char *data) {
     char *element = NULL;
     Customer *customer = malloc(sizeof(Customer));
+    if(customer == NULL){
+        exit(EXIT_FAILURE);
+    }
 
     element = cleanCsvColumn(strtok(data, ";"));
     customer->id = atoi(element);
@@ -255,7 +266,10 @@ char *searchHistoriesByCustomer(int customerId) {
 
 char *searchRowsBySecondId(int id, char *filename) {
     char *accountsIds = malloc(sizeof(char) * 512);
-    // TODO : check malloc != NULL
+    if(accountsIds == NULL){
+        exit(EXIT_FAILURE);
+    }
+
     *accountsIds = '\0';
 
     FILE *file = fopen(filename, "r");
@@ -289,6 +303,9 @@ char *searchRowsBySecondId(int id, char *filename) {
 
 char *formatAccountToCsv(Account *account) {
     char *data = malloc(sizeof(char) * 2000);
+    if(data == NULL){
+        exit(EXIT_FAILURE);
+    }
 
     sprintf(data, "\"%d\";\"%d\";\"%f\";\"%f\";\"%d\"\n",
             account->id,
@@ -303,6 +320,9 @@ char *formatAccountToCsv(Account *account) {
 Account *buildAccountFromCsv(char *data) {
     char *element = NULL;
     Account *account = malloc(sizeof(Account));
+    if(account == NULL){
+        exit(EXIT_FAILURE);
+    }
 
     element = cleanCsvColumn(strtok(data, ";"));
     account->id = atoi(element);
@@ -342,6 +362,10 @@ void addHistory(int customerId, int accountId, char *label, float amount) {
 
 char *getHistoryFilename() {
     char *filename = malloc(sizeof(char) * 255);
+    if(filename == NULL){
+        exit(EXIT_FAILURE);
+    }
+
     *filename = '\0';
 
     time_t now;
