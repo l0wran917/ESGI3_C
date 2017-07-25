@@ -282,6 +282,8 @@ void transfertAction(Customer *customer) {
     scanf("%f", &amount);
 
     transferringAccount(source, dest, amount);
+    printf("Le virement est effectue\n");
+    system("pause");
 }
 
 int askAccountId(Customer *customer, int owned) {
@@ -462,7 +464,7 @@ void createFolders() {
 #if defined(_WIN32)
         created = _mkdir("data");
 #else
-        created = mkdir("data", 0644);
+        created = mkdir("data", 0777);
 #endif
         if (created == -1) {
             printf("%s\n", strerror(errno));
@@ -471,7 +473,7 @@ void createFolders() {
 #if defined(_WIN32)
         created = _mkdir("data/backup");
 #else
-        created = mkdir("data/backup", 0644);
+        created = mkdir("data/backup", 0777);
 #endif
         if (created == -1) {
             printf("%s\n", strerror(errno));
@@ -480,7 +482,7 @@ void createFolders() {
 #if defined(_WIN32)
         created = _mkdir("data/history");
 #else
-        created = mkdir("data/history", 0644);
+        created = mkdir("data/history", 0777);
 #endif
         if (created == -1) {
             printf("%s\n", strerror(errno));
