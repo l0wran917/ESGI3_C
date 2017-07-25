@@ -396,7 +396,7 @@ void exportAction() {
     cleanOutput();
 
     char filename[512];
-    char outputPath[] = "../data/backup/";
+    char outputPath[] = "data/backup/";
 
     printf("Nom du fichier de backup : ");
     scanf("%s", filename);
@@ -412,7 +412,7 @@ void importAction() {
     cleanOutput();
 
     char filename[512];
-    char filePath[] = "../data/backup/";
+    char filePath[] = "data/backup/";
     int fileExists = -1;
 
     do {
