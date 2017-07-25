@@ -525,7 +525,7 @@ void searchCustomer(char *name) {
 
             int i;
             for (i = 0; i < limit; i++) {
-                if (tolower(tmp[i]) != name[i]) {
+                if (tolower(tmp[i]) != tolower(name[i])) {
                     break;
                 }
             }
