@@ -64,6 +64,7 @@ char *getRow(int id, const char *filename) {
         rowId = strtok(rowCopy, ";");
         rowId = cleanCsvColumn(rowId);
         if (atoi(rowId) == id) {
+            fclose(file);
             return row;
         }
     }
@@ -195,6 +196,7 @@ int getLastId(const char *filename) {
     }
 
     if (strlen(oldRow) == 0) {
+        fclose(file);
         return 0;
     }
     char *lastId = cleanCsvColumn(strtok(oldRow, ";"));
