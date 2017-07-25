@@ -44,6 +44,8 @@ void importAction();
 
 void displayTotalAccountAmountAction();
 
+void displayTotalRateAmountAction();
+
 void searchCustomerAction();
 
 void cleanOutput() {

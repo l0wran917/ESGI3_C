@@ -181,7 +181,7 @@ int deleteRow(int id, const char *filename) {
 int getLastId(const char *filename) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
-        return NULL;
+        return 0;
     }
 
     char row[512];
@@ -195,6 +195,7 @@ int getLastId(const char *filename) {
     }
     char *lastId = cleanCsvColumn(strtok(oldRow, ";"));
 
+    fclose(file);
     return atoi(lastId) + 1;
 }
 
