@@ -304,7 +304,7 @@ int askAccountId(Customer *customer, int owned) {
             printf("Le compte n'existe pas\n");
         }
 
-        if (account.id > 0 && account.customerId == customer->id) {
+        if (account.id >= 0 && account.customerId == customer->id) {
             allowed = 1;
         }
 
